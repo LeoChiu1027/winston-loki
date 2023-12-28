@@ -1,6 +1,17 @@
 import TransportStream from "winston-transport";
 
-declare interface LokiTransportOptions extends TransportStream.TransportStreamOptions{
+
+declare class LokiTransport extends TransportStream {
+
+    constructor(opts: LokiTransport.LokiTransportOptions);
+    flush(): Promise<null>;
+}
+
+export = LokiTransport;
+
+declare namespace LokiTransport {
+
+  export interface LokiTransportOptions extends TransportStream.TransportStreamOptions{
     host: string;
     basicAuth?: string;
     headers?: object;
@@ -13,12 +24,5 @@ declare interface LokiTransportOptions extends TransportStream.TransportStreamOp
     gracefulShutdown?: boolean,
     timeout?: number,
     onConnectionError?(error: unknown): void
+  }
 }
-
-declare class LokiTransport extends TransportStream {
-
-    constructor(opts: LokiTransportOptions);
-    flush(): Promise<null>;
-}
-
-export = LokiTransport;
